@@ -1,0 +1,12 @@
+{
+    "kiroAgent.configureMCP": "Disabled",
+    "liveServer.settings.ignoreFiles": [
+        "**/database.db",
+        "**/database.db-journal",
+        "**/.git/**"
+    ],
+    "fiveServer.ignore": [
+        "**/database.db",
+        "**/database.db-journal"
+    ]
+}

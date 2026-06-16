@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фінансовий облік підлітка</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="mobile-header">
+        <button class="burger-menu" id="burger-menu" aria-label="Відкрити меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <span class="mobile-logo">FinSim 💸</span>
+    </div>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <div class="left-panel" id="left-panel">
+        <div class="left-panel__mobile-header">
+            <span class="left-panel__mobile-logo">FinSim 💸</span>
+            <button class="left-panel__close" id="btn-close-menu" aria-label="Закрити меню">&times;</button>
+        </div>
+        <nav class="nav">
+            <button class="nav__button active" id="nav-dashboard">Дашборд</button>
+            <button class="nav__button" id="nav-expenses">Витрати</button>
+            <button class="nav__button" id="nav-income">Доходи</button>
+            <button class="nav__button hidden" id="nav-simulator">Симулятор</button>
+        </nav>
+
+        <div class="profile">
+            <div class="profile__info">
+                <img class="profile__avatar hidden" id="profile-avatar" src="" alt="avatar" />
+                <span class="profile__name" id="profile-name"></span>
+            </div>
+            <div class="profile__actions">
+                <button class="profile__btn" id="btn-settings">⚙ Налаштування</button>
+                <button class="profile__btn profile__btn--logout" id="btn-logout">Вийти</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <header class="header">
+            <h1 class="header__title">Привіт, <span class="user-name"></span>!</h1>
+        </header>
+
+        <!-- Дашборд -->
+        <div id="page-dashboard">
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-label" id="progress-label">Баланс: 0 грн</span>
+                    <span class="progress-goal" id="progress-goal"></span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="dashboard">
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-card stat-card--expenses">
+                    <p class="stat-card__label">Витрати сьогодні</p>
+                    <p class="stat-card__value" id="stat-today-expenses">—</p>
+                </div>
+                <div class="stat-card stat-card--profit">
+                    <p class="stat-card__label">Прибуток сьогодні</p>
+                    <p class="stat-card__value" id="stat-today-profit">—</p>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <h3 class="expenses-section-title">Динаміка балансу</h3>
+                <canvas id="balance-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Витрати -->
+        <div id="page-expenses" class="hidden">
+            <div class="expenses-header">
+                <button class="add-expense-btn" id="btn-add-expense">+ Додати витрату</button>
+            </div>
+
+            <h3 class="expenses-section-title">Регулярні витрати</h3>
+            <div class="expenses-list" id="recurring-list"></div>
+
+            <h3 class="expenses-section-title">Історія витрат</h3>
+            <div class="expenses-list" id="history-list"></div>
+        </div>
+
+        <!-- Доходи -->
+        <div id="page-income" class="hidden">
+            <div class="expenses-header">
+                <button class="add-expense-btn" id="btn-add-income">+ Додати дохід</button>
+            </div>
+
+            <div class="dashboard income-cards" id="income-info-cards">
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+                <div class="card skeleton"></div>
+            </div>
+
+            <h3 class="expenses-section-title" style="margin-top:28px">Одноразові доходи</h3>
+            <div class="expenses-list" id="one-time-income-list"></div>
+        </div>
+
+        <!-- Симулятор -->
+        <div id="page-simulator" class="hidden">
+            <div class="simulator-card">
+                <div class="simulator-header">
+                    <span class="simulator-badge">Режим Симуляції</span>
+                    <h2 class="simulator-date-title" id="sim-date-display">Дата симуляції: ...</h2>
+                </div>
+                <p class="simulator-desc">Керуйте часом та фінансовими подіями у вашому віртуальному житті, щоб перевірити свої навички заощадження.</p>
+                <div class="simulator-buttons">
+                    <button class="simulator-btn simulator-btn--income" id="btn-sim-random-income">
+                        <span class="btn-icon">💰</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Рандомний дохід</span>
+                            <span class="btn-subtitle">Випадкові підробітки або подарунки</span>
+                        </div>
+                    </button>
+                    <button class="simulator-btn simulator-btn--expense" id="btn-sim-random-expense">
+                        <span class="btn-icon">💸</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Рандомна витрата</span>
+                            <span class="btn-subtitle">Незаплановані кишенькові витрати</span>
+                        </div>
+                    </button>
+                    <button class="simulator-btn simulator-btn--nextday" id="btn-sim-next-day">
+                        <span class="btn-icon">📅</span>
+                        <div class="btn-text">
+                            <span class="btn-title">Наступний день</span>
+                            <span class="btn-subtitle">Прокрутити час вперед на 1 день</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка витрати -->
+    <div class="modal-overlay hidden" id="expense-modal">
+        <div class="modal">
+            <h2 class="modal__title">Нова витрата</h2>
+            <div class="settings-form">
+                <label class="settings-label">Назва
+                    <input type="text" class="settings-input" id="e-title" placeholder="Кава, проїзд..." />
+                </label>
+                <label class="settings-label">Категорія
+                    <select class="settings-input" id="e-category">
+                        <option value="їжа">🍔 Їжа</option>
+                        <option value="транспорт">🚌 Транспорт</option>
+                        <option value="розваги">🎮 Розваги</option>
+                        <option value="одяг">👕 Одяг</option>
+                        <option value="навчання">📚 Навчання</option>
+                        <option value="здоров'я">💊 Здоров'я</option>
+                        <option value="інше">📦 Інше</option>
+                    </select>
+                </label>
+                <label class="settings-label">Сума (грн)
+                    <input type="number" class="settings-input" id="e-amount" placeholder="50" />
+                </label>
+                <label class="settings-label">Повторення
+                    <select class="settings-input" id="e-repeat">
+                        <option value="одноразово">Одноразово</option>
+                        <option value="щодня">Щодня</option>
+                        <option value="щотижня">Щотижня</option>
+                        <option value="щомісяця">Щомісяця</option>
+                        <option value="щороку">Щороку</option>
+                    </select>
+                </label>
+            </div>
+            <div class="modal__buttons">
+                <button class="modal__btn modal__btn--save" id="btn-expense-save">Додати</button>
+                <button class="modal__btn modal__btn--cancel" id="btn-expense-cancel">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка налаштувань -->
+    <div class="modal-overlay hidden" id="settings-modal">
+        <div class="modal">
+            <h2 class="modal__title">Налаштування</h2>
+
+            <div class="avatar-upload">
+                <img class="avatar-preview" id="avatar-preview" src="" alt="" />
+                <label class="avatar-upload__btn">
+                    Змінити фото
+                    <input type="file" id="avatar-file" accept="image/*" />
+                </label>
+            </div>
+
+            <div class="settings-form">
+                <label class="settings-label">Ім'я
+                    <input type="text" class="settings-input" id="s-name" />
+                </label>
+                <label class="settings-label">Мета
+                    <input type="text" class="settings-input" id="s-goal" />
+                </label>
+                <label class="settings-label">Сума мрії (грн)
+                    <input type="number" class="settings-input" id="s-goal-sum" />
+                </label>
+                <label class="settings-label">Термін (дні)
+                    <input type="number" class="settings-input" id="s-deadline" />
+                </label>
+                <label class="settings-label">Від батьків щодня (грн)
+                    <input type="number" class="settings-input" id="s-parents" />
+                </label>
+                <label class="settings-label">Інші надходження
+                    <input type="text" class="settings-input" id="s-other-income" />
+                </label>
+                <label class="settings-label">Сума інших надходжень (грн/день)
+                    <input type="number" class="settings-input" id="s-other-amount" />
+                </label>
+                <label class="settings-label">Обов'язкові витрати (грн)
+                    <input type="number" class="settings-input" id="s-must-spend" />
+                </label>
+                <label class="settings-label">Секретна фраза
+                    <div class="passphrase-row">
+                        <input type="text" class="settings-input" id="s-passphrase" readonly />
+                        <button type="button" class="passphrase-edit-btn" id="btn-edit-passphrase">Змінити</button>
+                    </div>
+                </label>
+            </div>
+
+            <div class="modal__buttons">
+                <button class="modal__btn modal__btn--save" id="btn-save">Зберегти</button>
+                <button class="modal__btn modal__btn--cancel" id="btn-modal-cancel">Скасувати</button>
+            </div>
+
+            <button class="modal__btn modal__btn--delete" id="btn-delete">Видалити акаунт</button>
+        </div>
+    </div>
+
+    <!-- Модалка одноразового доходу -->
+    <div class="modal-overlay hidden" id="income-modal">
+        <div class="modal">
+            <h2 class="modal__title">Новий дохід</h2>
+            <div class="settings-form">
+                <label class="settings-label">Опис
+                    <input type="text" class="settings-input" id="i-title" placeholder="Від бабусі, на день народження..." />
+                </label>
+                <label class="settings-label">Сума (грн)
+                    <input type="number" class="settings-input" id="i-amount" placeholder="200" />
+                </label>
+            </div>
+            <div class="modal__buttons">
+                <button class="modal__btn modal__btn--save" id="btn-income-save">Додати</button>
+                <button class="modal__btn modal__btn--cancel" id="btn-income-cancel">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Попап виходу -->
+    <div class="popup-overlay hidden" id="logout-overlay">
+        <div class="popup-box">
+            <p class="popup-message">Запиши свою секретну фразу перед виходом:</p>
+            <p class="passphrase-display" id="logout-passphrase"></p>
+            <div class="popup-buttons">
+                <button class="popup-btn popup-btn-ok" id="logout-confirm">Записав, виходжу</button>
+                <button class="popup-btn popup-btn-cancel" id="logout-cancel">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Попап -->
+    <div class="popup-overlay hidden" id="popup-overlay">
+        <div class="popup-box">
+            <p class="popup-message" id="popup-message"></p>
+            <input type="text" class="popup-input hidden" id="popup-input" />
+            <div class="popup-buttons">
+                <button class="popup-btn popup-btn-ok" id="popup-btn-ok">OK</button>
+                <button class="popup-btn popup-btn-cancel hidden" id="popup-btn-cancel">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

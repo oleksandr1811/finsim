@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фінансовий облік підлітка</title>
+    <link rel="stylesheet" href="css/first-setup.css" />
+</head>
+
+<body>
+    <!-- Реєстрація -->
+    <form action="" class="form" id="register-form">
+        <h1 class="title">Привіт, давай познайомимося!</h1>
+        <p class="subtitle">Заповни анкету, щоб почати використовувати додаток</p>
+        <p class="label">Ваше ім'я:</p>
+        <input type="text" class="name" placeholder="Максим" required />
+        <p class="label">Ваша мета:</p>
+        <input type="text" class="goal" placeholder="3д принтер BambuLab P1S" required />
+        <div class="small-inputs">
+            <div class="left">
+                <p class="label">Сума мрії (грн):</p>
+                <input type="number" class="sum" placeholder="25000" required />
+                <p class="label">Термін (дні):</p>
+                <input type="number" class="deadline" placeholder="30" required />
+            </div>
+            <div class="right">
+                <p class="label">Від батьків щодня(грн):</p>
+                <input type="number" class="parents" placeholder="100" required />
+                <p class="label">Інші надходження:</p>
+                <input type="text" class="other-income" placeholder="підробіток(не обов'язково)" />
+            </div>
+        </div>
+        <button type="submit" class="start-btn">Почати</button>
+        <p class="login-hint">Вже є акаунт? <button type="button" class="link-btn" id="show-login">Увійти за фразою</button></p>
+    </form>
+
+    <!-- Вхід за фразою -->
+    <form action="" class="form hidden" id="login-form">
+        <h1 class="title">Увійти</h1>
+        <p class="subtitle">Введи свою секретну фразу</p>
+        <p class="label">Секретна фраза:</p>
+        <input type="text" class="passphrase-input" placeholder="синій-дракон-42" required />
+        <button type="submit" class="start-btn">Увійти</button>
+        <p class="login-hint"><button type="button" class="link-btn" id="show-register">← Назад до реєстрації</button></p>
+    </form>
+
+    <!-- Popup -->
+    <div class="popup-overlay hidden" id="popup-overlay">
+        <div class="popup-box">
+            <p class="popup-message" id="popup-message"></p>
+            <input type="text" class="popup-input hidden" id="popup-input" />
+            <div class="popup-buttons">
+                <button class="popup-btn popup-btn-ok" id="popup-btn-ok">OK</button>
+                <button class="popup-btn popup-btn-cancel hidden" id="popup-btn-cancel">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/first-setup.js"></script>
+</body>
+
+</html>
